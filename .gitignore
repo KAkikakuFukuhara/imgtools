@@ -3,6 +3,8 @@
 poetry.lock
 
 # dirs
+__pycache__
+.venv
 
 
 # exception
