@@ -20,5 +20,6 @@ def search_img_paths(dir:Union[str, Path], suffixes:List[str]):
     suffixes_:List[str] = suffixes + [suf.upper() for suf in suffixes] # [".jpg"] to [".jpg", ".JPG"]
     img_paths:List[Path] = [path for suf in suffixes_ for path in dir_.glob(f"*{suf}")]
     assert img_paths, f"Not Found file that {suffixes} in {dir_}"
+    img_paths.sort()
 
     return img_paths

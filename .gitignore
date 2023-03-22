@@ -1,6 +1,9 @@
 # files
 .python-version
 poetry.lock
+*.jpg
+*.mp4
+*.png
 
 # dirs
 __pycache__
