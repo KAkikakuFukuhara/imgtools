@@ -25,7 +25,7 @@ def main(*args, **kwargs):
     utils.show_kwargs(**kwargs)
 
     img_dir:Path = Path(kwargs['img_dir'])
-    utils.check_dir(img_dir)
+    utils.check_is_valid_dir(img_dir)
     print(f"Target dir is {img_dir}")
 
     img_paths:List[Path] = path_functions.search_img_paths(img_dir, [".jpg", ".png"])

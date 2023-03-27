@@ -18,6 +18,7 @@ def parse_args():
 
     add_makeMP4(subparsers)
     add_count_resolution(subparsers)
+    add_resize(subparsers)
 
     args:Any = parser.parse_args()
 
@@ -73,6 +74,35 @@ def add_count_resolution(subparser:_SubParsersAction):
         commands += [str(PYTHON_PATH)]
         commands += [str(FILE_DIR.joinpath("count_img_size.py"))]
         commands += [_args.img_dir]
+        subprocess.run(commands)
+
+    parser.set_defaults(handler=event)
+
+
+def add_resize(subparser:_SubParsersAction):
+
+    description:str = \
+    """
+    画像群をまとめてリサイズする
+    """
+    parser:ArgumentParser = subparser.add_parser("resize", description=description)
+    parser.add_argument("img_dir", type=str, help="img dir")
+    parser.add_argument("--out_dir", type=str, default="None", help="default is <img_dir>_resized")
+    parser.add_argument("--resolution", type=str, default="640x480",
+                        help="Resize resolution. Format is WidthxHeight. \
+                        If you keep aspect ratio, use WidthxAny or AnyorHeight")
+    parser.add_argument("--y", action="store_true", help="skip ask process")
+
+    def event(*args):
+        _args:Any = args[0]
+        commands:List[str] = []
+        commands += [str(PYTHON_PATH)]
+        commands += [str(FILE_DIR.joinpath("resize.py"))]
+        commands += [_args.img_dir]
+        commands += ["--out_dir", _args.out_dir]
+        commands += ["--resolution", _args.resolution]
+        if _args.y:
+            commands += ["--y"]
         subprocess.run(commands)
 
     parser.set_defaults(handler=event)
