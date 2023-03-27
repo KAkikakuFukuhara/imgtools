@@ -3,7 +3,7 @@
 """
 import os
 from typing import Any, List
-from argparse import ArgumentParser, _SubParsersAction
+from argparse import ArgumentParser, _SubParsersAction, RawTextHelpFormatter
 import subprocess
 from pathlib import Path
 
@@ -13,7 +13,17 @@ ROOT_DIR:Path = FILE_DIR.parent
 PYTHON_PATH:Path = ROOT_DIR.joinpath(".venv/bin/python")
 
 def parse_args():
-    parser:ArgumentParser = ArgumentParser(prog="imgtools", description=__doc__)
+    epilog:str = \
+    """
+    makeMP4:画像セットから動画を作成する.
+    count_resolution:ディレクトリに含まれる画像の解像度を調べる.
+    resize:画像群をまとめてリサイズする.
+    """
+    parser:ArgumentParser = ArgumentParser(
+        prog="imgtools", 
+        description=__doc__, 
+        epilog=epilog, 
+        formatter_class=RawTextHelpFormatter)
     subparsers:_SubParsersAction = parser.add_subparsers()
 
     add_makeMP4(subparsers)
