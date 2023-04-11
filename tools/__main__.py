@@ -29,6 +29,7 @@ def parse_args():
     add_makeMP4(subparsers)
     add_count_resolution(subparsers)
     add_resize(subparsers)
+    add_rotate(subparsers)
 
     args:Any = parser.parse_args()
 
@@ -111,6 +112,35 @@ def add_resize(subparser:_SubParsersAction):
         commands += [_args.img_dir]
         commands += ["--out_dir", _args.out_dir]
         commands += ["--resolution", _args.resolution]
+        if _args.y:
+            commands += ["--y"]
+        subprocess.run(commands)
+
+    parser.set_defaults(handler=event)
+
+
+def add_rotate(subparser:_SubParsersAction):
+
+    description:str = \
+    """
+    画像群をまとめて回転する
+    """
+    parser:ArgumentParser = subparser.add_parser("rotate", description=description)
+
+    parser.add_argument("img_dir", type=str, help="img dir")
+    parser.add_argument("--out_dir", type=str, default="None", help="default is <img_dir>_rotated")
+    parser.add_argument("--rotate", type=str, choices=["r90", "l90", "reverse"], default="l90", 
+                        help="Rorate option. Option is right 90 or left 90 or reverse. Default is l90")
+    parser.add_argument("--y", action="store_true", help="skip ask process")
+
+    def event(*args):
+        _args:Any = args[0]
+        commands:List[str] = []
+        commands += [str(PYTHON_PATH)]
+        commands += [str(FILE_DIR.joinpath("rotate.py"))]
+        commands += [_args.img_dir]
+        commands += ["--out_dir", _args.out_dir]
+        commands += ["--rotate", _args.rotate]
         if _args.y:
             commands += ["--y"]
         subprocess.run(commands)
