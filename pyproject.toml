@@ -6,8 +6,9 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <=3.10"
-opencv-python = "^4.7.0"
 tqdm = "^4.65.0"
+opencv-python = "^4.7.0"
+matplotlib = "^3.7.1"
 
 [tool.poetry.dev-dependencies]
 
