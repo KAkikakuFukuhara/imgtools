@@ -30,6 +30,7 @@ def parse_args():
     add_count_resolution(subparsers)
     add_resize(subparsers)
     add_rotate(subparsers)
+    add_concat(subparsers)
 
     args:Any = parser.parse_args()
 
@@ -143,6 +144,32 @@ def add_rotate(subparser:_SubParsersAction):
         commands += ["--rotate", _args.rotate]
         if _args.y:
             commands += ["--y"]
+        subprocess.run(commands)
+
+    parser.set_defaults(handler=event)
+
+
+def add_concat(subparser:_SubParsersAction):
+
+    description:str = \
+    """ 画像を合成
+    """
+    parser:ArgumentParser = subparser.add_parser("concat", description=description)
+    parser.add_argument("dir1", type=str, help="dir1")
+    parser.add_argument("dir2", type=str, help="dir2")
+    parser.add_argument("-v", "--vertical", action="store_true", help="concat vertical flag")
+    parser.add_argument("-o", "--out", type=str, default="./", help="outdir root path. Default is ./")
+
+    def event(*args):
+        _args:Any = args[0]
+        commands:List[str] = []
+        commands += [str(PYTHON_PATH)]
+        commands += [str(FILE_DIR.joinpath("concat.py"))]
+        commands += [_args.dir1]
+        commands += [_args.dir2]
+        if _args.vertical:
+            commands += ["-v"]
+        commands += ["--out", _args.out]
         subprocess.run(commands)
 
     parser.set_defaults(handler=event)
