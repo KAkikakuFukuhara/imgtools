@@ -114,7 +114,7 @@ def write_video(video_writer:cv2.VideoWriter, img_paths:List[Path], dsc_img_shap
         if img.shape == dsc_img_shape:
             dsc_img = img
         else:
-            dsc_img = cv2.resize(img, (dsc_img[1], dsc_img[0]))
+            dsc_img = cv2.resize(img, (dsc_img_shape[1], dsc_img_shape[0]))
 
         video_writer.write(dsc_img)
     video_writer.release()
