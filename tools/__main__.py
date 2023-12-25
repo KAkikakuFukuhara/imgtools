@@ -31,6 +31,7 @@ def parse_args():
     add_resize(subparsers)
     add_rotate(subparsers)
     add_concat(subparsers)
+    add_png2jpg(subparsers)
 
     args:Any = parser.parse_args()
 
@@ -170,6 +171,30 @@ def add_concat(subparser:_SubParsersAction):
         if _args.vertical:
             commands += ["-v"]
         commands += ["--out", _args.out]
+        subprocess.run(commands)
+
+    parser.set_defaults(handler=event)
+
+
+def add_png2jpg(subparser:_SubParsersAction):
+
+    description:str = \
+    """ 画像を合成
+    """
+    parser:ArgumentParser = subparser.add_parser("png2jpg", description=description)
+    parser.add_argument("png_dir", type=str, help="png dir")
+    parser.add_argument("--out_dir", type=str, default="None", help="default is <PNG_DIR>_jpg")
+    parser.add_argument("--quality", type=int, default=100, help="compression ratio")
+
+    def event(*args):
+        _args:Any = args[0]
+        commands:List[str] = []
+        commands += [str(PYTHON_PATH)]
+        commands += [str(FILE_DIR.joinpath("png2jpg.py"))]
+        commands += [os.path.abspath(_args.png_dir)]
+        if _args.out_dir != "None":
+            commands += ["--out_dir", os.path.abspath(_args.out_dir)]
+        commands += ["--quality", str(_args.quality)]
         subprocess.run(commands)
 
     parser.set_defaults(handler=event)
