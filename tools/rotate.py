@@ -74,7 +74,7 @@ def parse_src_dir(path:str, **kwargs) -> Path:
 def parse_out_dir(path:str, **kwargs) -> Path:
     is_use_default_dir:bool = path == "None"
     if is_use_default_dir:
-        path_:Path = Path(f"{kwargs['src_dir']}_rotated")
+        path_:Path = Path(f"{Path(kwargs['src_dir']).absolute()}_rotated")
     else:
         path_ = Path(path)
     utils.check_is_valid_dir(path_.parent)
