@@ -184,7 +184,7 @@ def add_png2jpg(subparser:_SubParsersAction):
     parser:ArgumentParser = subparser.add_parser("png2jpg", description=description)
     parser.add_argument("png_dir", type=str, help="png dir")
     parser.add_argument("--out_dir", type=str, default="None", help="default is <PNG_DIR>_jpg")
-    parser.add_argument("--quality", type=int, default=100, help="compression ratio")
+    parser.add_argument("-q", "--quality", type=int, default=100, help="compression ratio. default is 100")
 
     def event(*args):
         _args:Any = args[0]
