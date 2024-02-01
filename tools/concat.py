@@ -1,5 +1,6 @@
 ''' 画像を合成する
 '''
+from __future__ import annotations
 from argparse import ArgumentParser
 from pathlib import Path
 
@@ -25,9 +26,9 @@ def parse_args():
 def main(*args, **kwargs):
     dir1 = Path(kwargs['dir1'])
     dir2 = Path(kwargs['dir2'])
-    axis_num = 0 if kwargs['vertical'] else 1
-    imgpaths1 = imgp.search_img_paths(dir1, suffixes=["jpg", "png"])
-    imgpaths2 = imgp.search_img_paths(dir2, suffixes=["jpg", "png"])
+    is_vertical: bool = kwargs['vertical']
+    imgpaths1: list[Path] = imgp.search_img_paths(dir1, suffixes=["jpg", "png"])
+    imgpaths2: list[Path] = imgp.search_img_paths(dir2, suffixes=["jpg", "png"])
     imgpaths1.sort()
     imgpaths2.sort()
 
@@ -39,20 +40,35 @@ def main(*args, **kwargs):
     min_num_imgpaths = min([len(imgpaths1), len(imgpaths2)])
     print(f"Num Imgs, MIN:{min_num_imgpaths}, DIR1:{len(imgpaths1)}, DIR2:{len(imgpaths2)}")
     for idx in tqdm.tqdm(range(min_num_imgpaths), desc="concat and write"):
-        img1 = cv2.imread(str(imgpaths1[idx]))
-        img2 = cv2.imread(str(imgpaths2[idx]))
-        shapes = np.array([list(img1.shape), list(img2.shape)])
-        max_hsize = max(shapes[:, 0])
-        max_wsize = max(shapes[:, 1])
-        canvas_shape = (max_hsize, max_wsize, 3)
-        canvas1 = np.zeros(canvas_shape, np.uint8)
-        canvas2 = canvas1.copy()
-        canvas1[:shapes[0, 0], :shapes[0, 1], :] = img1
-        canvas2[:shapes[1, 0], :shapes[1, 1], :] = img2
-        concated = np.concatenate([canvas1, canvas2], axis=axis_num)
+        # concat img h or v
+        img1: np.ndarray = cv2.imread(str(imgpaths1[idx])) # type:ignore
+        img2: np.ndarray = cv2.imread(str(imgpaths2[idx])) # type:ignore
+        concated_img: np.ndarray = concat_imgs(img1, img2, is_vertical)
+        # save output file
         out_file = outdir.joinpath(f"{imgpaths1[idx].stem}.png")
-        cv2.imwrite(str(out_file), concated)
+        cv2.imwrite(str(out_file), concated_img) # type:ignore
 
+
+def concat_imgs(img1: np.ndarray, img2: np.ndarray, is_vertical: bool) -> np.ndarray:
+    """ 2枚の画像を任意の方向に連結される。
+        画像サイズが異なる場合、小さい方の画像にゼロパディングを付加して連結させる
+    """
+    shapes: np.ndarray = np.array([list(img1.shape), list(img2.shape)])
+    if is_vertical: # concat vertical
+        max_wsize: int = max(shapes[:, 1])
+        canvas1: np.ndarray = np.zeros((img1.shape[0], max_wsize, 3), np.uint8)
+        canvas1[:img1.shape[0], :img1.shape[1], :] = img1
+        canvas2: np.ndarray = np.zeros((img2.shape[0], max_wsize, 3), np.uint8)
+        canvas2[:img2.shape[0], :img2.shape[1], :] = img2
+        concated_img: np.ndarray = np.concatenate([canvas1, canvas2], axis=0)
+    else: # concat horizon
+        max_hsize: int = max(shapes[:, 0])
+        canvas1: np.ndarray = np.zeros((max_hsize, img1.shape[1], 3), np.uint8)
+        canvas1[:img1.shape[0], :img1.shape[1], :] = img1
+        canvas2: np.ndarray = np.zeros((max_hsize, img2.shape[1], 3), np.uint8)
+        canvas2[:img2.shape[0], :img2.shape[1], :] = img2
+        concated_img: np.ndarray = np.concatenate([canvas1, canvas2], axis=1)
+    return concated_img
 
 if __name__ == "__main__":
     main(**parse_args())
