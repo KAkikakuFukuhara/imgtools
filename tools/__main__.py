@@ -160,6 +160,9 @@ def add_concat(subparser:_SubParsersAction):
     parser.add_argument("dir2", type=str, help="dir2")
     parser.add_argument("-v", "--vertical", action="store_true", help="concat vertical flag")
     parser.add_argument("-o", "--out", type=str, default="./", help="outdir root path. Default is ./")
+    parser.add_argument("-s", "--is_add_space", action="store_true", 
+                        help="Flag that add space between img and img when concatenate.")
+
 
     def event(*args):
         _args:Any = args[0]
@@ -170,6 +173,8 @@ def add_concat(subparser:_SubParsersAction):
         commands += [_args.dir2]
         if _args.vertical:
             commands += ["-v"]
+        if _args.is_add_space:
+            commands += ["-s"]
         commands += ["--out", _args.out]
         subprocess.run(commands)
 
