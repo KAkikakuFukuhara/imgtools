@@ -46,7 +46,7 @@ imgtools.sh --help
 >>> 
 >>> positional arguments:
 >>>   {makeMP4,count_resolution,resize,rotate,concat,png2jpg}
->>>     makeMP4             png画像群をjpg画像群に変換するプログラム
+>>>    makeMP4              画像セットから動画を作成する
 >>>     count_resolution    ディレクトリに含まれる画像の解像度を調べるプログラム
 >>>     resize               画像群をまとめてリサイズする
 >>>     rotate               画像群をまとめて回転する
