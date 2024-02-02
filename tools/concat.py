@@ -1,7 +1,7 @@
 ''' 画像を合成する
 '''
 from __future__ import annotations
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 from pathlib import Path
 
 import cv2
@@ -13,8 +13,7 @@ from imgtools import path_functions as imgp
 from imgtools import utils
 
 
-def parse_args():
-    parser = ArgumentParser()
+def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     parser.add_argument("dir1", type=str, help="dir1")
     parser.add_argument("dir2", type=str, help="dir2")
     parser.add_argument("-v", "--vertical", action="store_true", help="concat vertical flag")
@@ -22,7 +21,7 @@ def parse_args():
     parser.add_argument("-s", "--is_add_space", action="store_true", 
                         help="Flag that add space between img and img when concatenate.")
 
-    return vars(parser.parse_args())
+    return parser
 
 
 def main(*args, **kwargs):
@@ -82,5 +81,8 @@ def concat_imgs(img1: np.ndarray, img2: np.ndarray, is_vertical: bool, is_add_sp
         concated_img: np.ndarray = np.concatenate(canvases, axis=1)
     return concated_img
 
+
 if __name__ == "__main__":
-    main(**parse_args())
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))

@@ -1,9 +1,8 @@
-"""
-png画像群をjpg画像群に変換するプログラム
+"""png画像群をjpg画像群に変換するプログラム
 """
 from typing import Any, List, Dict, Optional
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 
 import tqdm
@@ -13,14 +12,12 @@ import cv2
 import _add_path
 from imgtools import path_functions
 
-def argparse() -> Dict[str, Any]:
-    parser:ArgumentParser = ArgumentParser(description=__doc__)
-
+def add_arguments(parser :ArgumentParser) -> ArgumentParser:
     parser.add_argument("png_dir", type=str, help="png dir")
     parser.add_argument("--out_dir", type=str, default="None", help="default is <PNG_DIR>_jpg")
     parser.add_argument("-q", "--quality", type=int, default=100, help="compression ratio. default is 100")
 
-    return vars(parser.parse_args())
+    return parser
 
 
 def main(*args, **kwargs):
@@ -59,5 +56,6 @@ def save_as_jpg(img:np.ndarray, out_file_name:str, out_dir:Path, quality:int=100
 
 
 if __name__ == "__main__":
-    cli_args:Dict[str, Any] = argparse()
-    main(**cli_args)
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))
