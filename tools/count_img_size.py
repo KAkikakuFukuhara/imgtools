@@ -1,7 +1,6 @@
+"""ディレクトリに含まれる画像の解像度を調べるプログラム
 """
-ディレクトリに含まれる画像の解像度を調べるプログラム
-"""
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 from typing import Any, Dict, List
 from pathlib import Path
 import pprint
@@ -14,11 +13,10 @@ import _add_path
 from imgtools import path_functions
 from imgtools import utils
 
-def parse_args() -> Dict[str, Any]:
-    parser:ArgumentParser = ArgumentParser(description=__doc__)
 
+def add_arguments(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument("img_dir", type=str, help="target dir include imgs")
-    return vars(parser.parse_args())
+    return parser
 
 
 def main(*args, **kwargs):
@@ -39,7 +37,7 @@ def main(*args, **kwargs):
 def count_process(img_paths:List[Path]) -> Dict[str, int]:
     resolution2count:Dict[str, int] = {}
     for img_path in tqdm.tqdm(img_paths, desc="count resolution"):
-        img:np.ndarray = cv2.imread(str(img_path))
+        img:np.ndarray = cv2.imread(str(img_path)) #type:ignore
 
         hsize:int = img.shape[0]
         wsize:int = img.shape[1]
@@ -52,5 +50,6 @@ def count_process(img_paths:List[Path]) -> Dict[str, int]:
 
 
 if __name__ == "__main__":
-    cli_args:Dict[str, Any] = parse_args()
-    main(**cli_args)
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))
