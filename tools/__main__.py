@@ -36,11 +36,11 @@ def main(*args, **kwargs):
 
 
 def add_makeMP4(subparser:_SubParsersAction):
-    import png2jpg
+    import cvt_img2mp4
     parser: ArgumentParser = subparser.add_parser(
-        "makeMP4", help=png2jpg.__doc__, formatter_class=RawTextHelpFormatter)
-    parser: ArgumentParser = png2jpg.add_arguments(parser)
-    parser.set_defaults(handler=png2jpg.main)
+        "makeMP4", help=cvt_img2mp4.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = cvt_img2mp4.add_arguments(parser)
+    parser.set_defaults(handler=cvt_img2mp4.main)
 
 
 def add_count_resolution(subparser:_SubParsersAction):
