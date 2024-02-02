@@ -2,7 +2,7 @@
 """
 from typing import Any, List, Dict, Optional, Tuple
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 import sys
 
@@ -14,9 +14,7 @@ import _add_path
 from imgtools import path_functions
 from imgtools import utils
 
-def argparse() -> Dict[str, Any]:
-    parser:ArgumentParser = ArgumentParser(description=__doc__)
-
+def add_arguments(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument("img_dir", type=str, help="img dir")
     parser.add_argument("--out_dir", type=str, default="None", help="default is <img_dir>_resized")
     parser.add_argument("--resolution", type=str, default="640x480",
@@ -24,8 +22,7 @@ def argparse() -> Dict[str, Any]:
                         If you keep aspect ratio, use WidthxAny or AnyorHeight")
     parser.add_argument("--y", action="store_true", help="skip ask process")
 
-
-    return vars(parser.parse_args())
+    return parser
 
 
 def main(*args, **kwargs):
@@ -159,5 +156,6 @@ def resize_img(img:np.ndarray, resolution:str) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    cli_args:Dict[str, Any] = argparse()
-    main(**cli_args)
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))

@@ -2,7 +2,7 @@
 """
 from typing import Any, List, Dict, Optional, Tuple
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 import sys
 
@@ -21,16 +21,14 @@ str2rotate_code:Dict[str, Any] = {
     "reverse":cv2.ROTATE_180
 }
 
-def argparse() -> Dict[str, Any]:
-    parser:ArgumentParser = ArgumentParser(description=__doc__)
-
+def add_arguments(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument("img_dir", type=str, help="img dir")
     parser.add_argument("--out_dir", type=str, default="None", help="default is <img_dir>_rotated")
     parser.add_argument("--rotate", type=str, choices=["r90", "l90", "reverse"], default="l90", 
                         help="Rorate option. Option is right 90 or left 90 or reverse. Default is l90")
     parser.add_argument("--y", action="store_true", help="skip ask process")
 
-    return vars(parser.parse_args())
+    return parser
 
 
 def main(*args, **kwargs):
@@ -124,5 +122,6 @@ def rotate_img(img:np.ndarray, rotate_str:str) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    cli_args:Dict[str, Any] = argparse()
-    main(**cli_args)
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))

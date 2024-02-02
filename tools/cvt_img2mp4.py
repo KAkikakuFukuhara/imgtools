@@ -3,7 +3,7 @@
 import sys
 from typing import Tuple, List, Dict, Any
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 
 import cv2
@@ -17,18 +17,14 @@ logging.basicConfig(
 )
 
 
-def parse_args() -> Dict[str, Any]:
-    parser = ArgumentParser()
-
+def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     parser.add_argument("img_dir", type=str, help="dir has imgs")
     parser.add_argument("--fps", type=float, default=30, help="frame per seconds. default is 30")
     parser.add_argument("--out_file", type=str, default="./out.mp4", 
                         help="output file (mp4). default is './out.mp4'")
     parser.add_argument("--num_img", type=int, default=-1, help="limit num that img will be used")
 
-    kwargs = vars(parser.parse_args())
-
-    return kwargs
+    return parser
 
 
 def main(*args, **kwargs):
@@ -121,5 +117,6 @@ def write_video(video_writer:cv2.VideoWriter, img_paths:List[Path], dsc_img_shap
 
 
 if __name__ == "__main__":
-    kwargs = parse_args()
-    main(**kwargs)
+    parser = ArgumentParser(description=__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = add_arguments(parser)
+    main(**vars(parser.parse_args()))
