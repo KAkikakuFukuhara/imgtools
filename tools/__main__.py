@@ -36,16 +36,18 @@ def main(*args, **kwargs):
 
 
 def add_makeMP4(subparser:_SubParsersAction):
-    import png2jpg
+    import cvt_img2mp4
     parser: ArgumentParser = subparser.add_parser(
-        "makeMP4", help=png2jpg.__doc__, formatter_class=RawTextHelpFormatter)
-    parser.set_defaults(handler=png2jpg.main)
+        "makeMP4", help=cvt_img2mp4.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = cvt_img2mp4.add_arguments(parser)
+    parser.set_defaults(handler=cvt_img2mp4.main)
 
 
 def add_count_resolution(subparser:_SubParsersAction):
     import count_img_size
     parser: ArgumentParser = subparser.add_parser(
         "count_resolution", help=count_img_size.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = count_img_size.add_arguments(parser)
     parser.set_defaults(handler=count_img_size.main)
 
 
@@ -53,6 +55,7 @@ def add_resize(subparser:_SubParsersAction):
     import resize
     parser: ArgumentParser = subparser.add_parser(
         "resize", help=resize.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = resize.add_arguments(parser)
     parser.set_defaults(handler=resize.main)
 
 
@@ -60,6 +63,7 @@ def add_rotate(subparser:_SubParsersAction):
     import rotate
     parser: ArgumentParser = subparser.add_parser(
         "rotate", help=rotate.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = rotate.add_arguments(parser)
     parser.set_defaults(handler=rotate.main)
 
 
@@ -67,6 +71,7 @@ def add_concat(subparser:_SubParsersAction):
     import concat
     parser: ArgumentParser = subparser.add_parser(
         "concat", help=concat.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser =concat.add_arguments(parser)
     parser.set_defaults(handler=concat.main)
 
 
@@ -74,6 +79,7 @@ def add_png2jpg(subparser:_SubParsersAction):
     import png2jpg
     parser: ArgumentParser = subparser.add_parser(
         "png2jpg", help=png2jpg.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = png2jpg.add_arguments(parser)
     parser.set_defaults(handler=png2jpg.main)
 
 
