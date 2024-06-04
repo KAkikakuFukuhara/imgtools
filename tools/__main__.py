@@ -21,6 +21,7 @@ def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     add_rotate(subparsers)
     add_concat(subparsers)
     add_png2jpg(subparsers)
+    add_rgb2gray(subparsers)
 
     return parser
 
@@ -81,6 +82,14 @@ def add_png2jpg(subparser:_SubParsersAction):
         "png2jpg", help=png2jpg.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = png2jpg.add_arguments(parser)
     parser.set_defaults(handler=png2jpg.main)
+
+
+def add_rgb2gray(subparser:_SubParsersAction):
+    import cvt_rgb2gray
+    parser: ArgumentParser = subparser.add_parser(
+        "rgb2gray", help=cvt_rgb2gray.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = cvt_rgb2gray.add_arguments(parser)
+    parser.set_defaults(handler=cvt_rgb2gray.main)
 
 
 if __name__ == "__main__":
