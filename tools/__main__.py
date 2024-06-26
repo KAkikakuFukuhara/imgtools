@@ -22,6 +22,7 @@ def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     add_concat(subparsers)
     add_png2jpg(subparsers)
     add_rgb2gray(subparsers)
+    add_imshow(subparsers)
 
     return parser
 
@@ -90,6 +91,14 @@ def add_rgb2gray(subparser:_SubParsersAction):
         "rgb2gray", help=cvt_rgb2gray.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = cvt_rgb2gray.add_arguments(parser)
     parser.set_defaults(handler=cvt_rgb2gray.main)
+
+
+def add_imshow(subparser:_SubParsersAction):
+    import imshow_addweighted
+    parser: ArgumentParser = subparser.add_parser(
+        "imshow", help=imshow_addweighted.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = imshow_addweighted.add_arguments(parser)
+    parser.set_defaults(handler=imshow_addweighted.main)
 
 
 if __name__ == "__main__":
