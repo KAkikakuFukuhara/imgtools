@@ -23,6 +23,7 @@ def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     add_png2jpg(subparsers)
     add_rgb2gray(subparsers)
     add_imshow(subparsers)
+    add_diff(subparsers)
 
     return parser
 
@@ -99,6 +100,14 @@ def add_imshow(subparser:_SubParsersAction):
         "imshow", help=imshow_addweighted.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = imshow_addweighted.add_arguments(parser)
     parser.set_defaults(handler=imshow_addweighted.main)
+
+
+def add_diff(subparser:_SubParsersAction):
+    import rgb_diff
+    parser: ArgumentParser = subparser.add_parser(
+        "diff", help=rgb_diff.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = rgb_diff.add_arguments(parser)
+    parser.set_defaults(handler=rgb_diff.main)
 
 
 if __name__ == "__main__":
