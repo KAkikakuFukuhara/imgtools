@@ -24,6 +24,7 @@ def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     add_rgb2gray(subparsers)
     add_imshow(subparsers)
     add_diff(subparsers)
+    add_mp4_to_gif(subparsers)
 
     return parser
 
@@ -108,6 +109,14 @@ def add_diff(subparser:_SubParsersAction):
         "diff", help=rgb_diff.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = rgb_diff.add_arguments(parser)
     parser.set_defaults(handler=rgb_diff.main)
+
+
+def add_mp4_to_gif(subparser:_SubParsersAction):
+    import mp4_to_gif
+    parser: ArgumentParser = subparser.add_parser(
+        "mp4_to_gif", help=mp4_to_gif.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = mp4_to_gif.add_arguments(parser)
+    parser.set_defaults(handler=mp4_to_gif.main)
 
 
 if __name__ == "__main__":
