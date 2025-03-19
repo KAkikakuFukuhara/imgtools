@@ -25,6 +25,7 @@ def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     add_imshow(subparsers)
     add_diff(subparsers)
     add_mp4_to_gif(subparsers)
+    add_get_frames(subparsers)
 
     return parser
 
@@ -117,6 +118,14 @@ def add_mp4_to_gif(subparser:_SubParsersAction):
         "mp4_to_gif", help=mp4_to_gif.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = mp4_to_gif.add_arguments(parser)
     parser.set_defaults(handler=mp4_to_gif.main)
+
+
+def add_get_frames(subparser:_SubParsersAction):
+    import get_frames
+    parser: ArgumentParser = subparser.add_parser(
+        "get_frames", help=get_frames.__doc__, formatter_class=RawTextHelpFormatter)
+    parser: ArgumentParser = get_frames.add_arguments(parser)
+    parser.set_defaults(handler=get_frames.main)
 
 
 if __name__ == "__main__":
