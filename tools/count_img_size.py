@@ -12,6 +12,7 @@ import cv2
 import _add_path
 from imgtools import path_functions
 from imgtools import utils
+from imgtools import info_getter
 
 
 def add_arguments(parser: ArgumentParser) -> ArgumentParser:
@@ -29,7 +30,7 @@ def main(*args, **kwargs):
     img_paths:List[Path] = path_functions.search_img_paths(img_dir, [".jpg", ".png"])
     print(f"number of imgs is {len(img_paths)}")
 
-    resolution2count:Dict[str, int] = count_process(img_paths)
+    resolution2count:Dict[str, int] = count_process2(img_paths)
     print("{WidthxHeight:num}")
     pprint.pprint(resolution2count)
 
@@ -41,6 +42,24 @@ def count_process(img_paths:List[Path]) -> Dict[str, int]:
 
         hsize:int = img.shape[0]
         wsize:int = img.shape[1]
+        resolution:str = f"{wsize}x{hsize}"
+        if resolution not in resolution2count.keys():
+            resolution2count[resolution] = 1
+        else:
+            resolution2count[resolution] += 1
+    return resolution2count
+
+
+def count_process2(img_paths:List[Path]) -> Dict[str, int]:
+    resolution2count:Dict[str, int] = {}
+    for img_path in tqdm.tqdm(img_paths, desc="count resolution"):
+        wsize: int; hsize: int
+        if img_path.suffix in ".jpg":
+            wsize, hsize = info_getter.get_resolution_jpg(img_path)
+        elif img_path.suffix in ".png":
+            wsize, hsize = info_getter.get_resolution_png(img_path)
+        else:
+            raise Exception
         resolution:str = f"{wsize}x{hsize}"
         if resolution not in resolution2count.keys():
             resolution2count[resolution] = 1
