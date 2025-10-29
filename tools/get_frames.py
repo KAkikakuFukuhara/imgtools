@@ -65,8 +65,8 @@ def main(*args, **kwargs):
                 ### imwrite
                 if not dst_dir_path.exists():
                     dst_dir_path.mkdir()
-                dst_file: Path = dst_dir_path.joinpath(f"{fi:06}.png")
-                cv2.imwrite(str(dst_file), frame)
+                dst_file: Path = dst_dir_path.joinpath(f"{fi:06}.jpg")
+                cv2.imwrite(str(dst_file), frame, params=[cv2.IMWRITE_JPEG_QUALITY, 100])
 
         except KeyboardInterrupt:
             break
