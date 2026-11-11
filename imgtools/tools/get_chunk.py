@@ -6,7 +6,7 @@ from PIL import Image, PngImagePlugin
 import pprint
 
 FILE_DIR = Path(__file__).absolute().parent
-ROOT_DIR = FILE_DIR.parent
+ROOT_DIR = FILE_DIR.parent.parent
 DATA_DIR = ROOT_DIR.joinpath("data")
 
 def parse_IHDR(data):

@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 _FILE_DIR:Path = Path(__file__).absolute().parent
-ROOT_DIR:Path = _FILE_DIR.parent
+ROOT_DIR:Path = _FILE_DIR.parent.parent
 
 def add_path():
     if str(ROOT_DIR) not in sys.path:

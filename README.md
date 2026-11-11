@@ -29,7 +29,7 @@ python -m pip install -e .
 仮想環境を有効にした状態なら、リポジトリのルートから次のように実行できます。
 
 ```bash
-python tools --help
+python -m imgtools --help
 ```
 
 ### 2.1 `imgtools.sh` コマンドの作成（任意）
@@ -47,11 +47,11 @@ bash scripts/create_bashscripts.sh
 コマンド一覧と各コマンドのオプションは `--help` で確認できます。
 
 ```bash
-python tools --help
-python tools resize --help
+python -m imgtools --help
+python -m imgtools resize --help
 ```
 
-ランチャーを作成した場合は `python tools` の代わりに `imgtools.sh` を使えます。
+旧形式の `python tools` も互換用の入口として利用できます。ランチャーを作成した場合は `imgtools.sh` を使えます。
 
 | サブコマンド | 機能 |
 | --- | --- |
@@ -71,16 +71,16 @@ python tools resize --help
 
 ```bash
 # 画像を 640×480 にリサイズ（確認入力を省略）
-python tools resize ./images --resolution 640x480 --y
+python -m imgtools resize ./images --resolution 640x480 --y
 
 # 画像を右に90度回転
-python tools rotate ./images --rotate r90 --y
+python -m imgtools rotate ./images --rotate r90 --y
 
 # 画像フォルダから動画を作成（毎秒30フレーム）
-python tools makeMP4 ./images --fps 30 --out_file ./out.mp4
+python -m imgtools makeMP4 ./images --fps 30 --out_file ./out.mp4
 
 # サブコマンド固有の引数を確認
-python tools mp4_to_gif --help
+python -m imgtools mp4_to_gif --help
 ```
 
 多くの画像処理コマンドは `.jpg` / `.png` を対象とし、入力フォルダ直下のファイルを処理します。オプションや出力先の既定値はコマンドごとに異なるため、実行前に `--help` を確認してください。

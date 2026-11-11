@@ -8,7 +8,6 @@ from typing import Optional, Any
 import cv2
 import numpy as np
 
-import _add_path
 from imgtools import path_functions
 
 

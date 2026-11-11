@@ -10,7 +10,6 @@ import tqdm
 import numpy as np
 import cv2
 
-import _add_path
 from imgtools import path_functions
 from imgtools import utils
 
