@@ -1,16 +1,7 @@
 """
 画像関連の編集等のプログラムのコマンドラインパーサー
 """
-import os
-from typing import Any, List
 from argparse import ArgumentParser, _SubParsersAction, RawTextHelpFormatter
-import subprocess
-from pathlib import Path
-
-CURR_DIR:Path = Path(os.path.curdir).absolute()
-FILE_DIR:Path = Path(__file__).absolute().parent
-ROOT_DIR:Path = FILE_DIR.parent
-PYTHON_PATH:Path = ROOT_DIR.joinpath(".venv/bin/python")
 
 def add_arguments(parser:ArgumentParser) -> ArgumentParser:
     subparsers:_SubParsersAction = parser.add_subparsers()
@@ -41,7 +32,7 @@ def main(*args, **kwargs):
 
 
 def add_makeMP4(subparser:_SubParsersAction):
-    import cvt_img2mp4
+    from . import cvt_img2mp4
     parser: ArgumentParser = subparser.add_parser(
         "makeMP4", help=cvt_img2mp4.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = cvt_img2mp4.add_arguments(parser)
@@ -49,7 +40,7 @@ def add_makeMP4(subparser:_SubParsersAction):
 
 
 def add_count_resolution(subparser:_SubParsersAction):
-    import count_img_size
+    from . import count_img_size
     parser: ArgumentParser = subparser.add_parser(
         "count_resolution", help=count_img_size.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = count_img_size.add_arguments(parser)
@@ -57,7 +48,7 @@ def add_count_resolution(subparser:_SubParsersAction):
 
 
 def add_resize(subparser:_SubParsersAction):
-    import resize
+    from . import resize
     parser: ArgumentParser = subparser.add_parser(
         "resize", help=resize.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = resize.add_arguments(parser)
@@ -65,7 +56,7 @@ def add_resize(subparser:_SubParsersAction):
 
 
 def add_rotate(subparser:_SubParsersAction):
-    import rotate
+    from . import rotate
     parser: ArgumentParser = subparser.add_parser(
         "rotate", help=rotate.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = rotate.add_arguments(parser)
@@ -73,7 +64,7 @@ def add_rotate(subparser:_SubParsersAction):
 
 
 def add_concat(subparser:_SubParsersAction):
-    import concat
+    from . import concat
     parser: ArgumentParser = subparser.add_parser(
         "concat", help=concat.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser =concat.add_arguments(parser)
@@ -81,7 +72,7 @@ def add_concat(subparser:_SubParsersAction):
 
 
 def add_png2jpg(subparser:_SubParsersAction):
-    import png2jpg
+    from . import png2jpg
     parser: ArgumentParser = subparser.add_parser(
         "png2jpg", help=png2jpg.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = png2jpg.add_arguments(parser)
@@ -89,7 +80,7 @@ def add_png2jpg(subparser:_SubParsersAction):
 
 
 def add_rgb2gray(subparser:_SubParsersAction):
-    import cvt_rgb2gray
+    from . import cvt_rgb2gray
     parser: ArgumentParser = subparser.add_parser(
         "rgb2gray", help=cvt_rgb2gray.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = cvt_rgb2gray.add_arguments(parser)
@@ -97,7 +88,7 @@ def add_rgb2gray(subparser:_SubParsersAction):
 
 
 def add_imshow(subparser:_SubParsersAction):
-    import imshow_addweighted
+    from . import imshow_addweighted
     parser: ArgumentParser = subparser.add_parser(
         "imshow", help=imshow_addweighted.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = imshow_addweighted.add_arguments(parser)
@@ -105,7 +96,7 @@ def add_imshow(subparser:_SubParsersAction):
 
 
 def add_diff(subparser:_SubParsersAction):
-    import rgb_diff
+    from . import rgb_diff
     parser: ArgumentParser = subparser.add_parser(
         "diff", help=rgb_diff.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = rgb_diff.add_arguments(parser)
@@ -113,7 +104,7 @@ def add_diff(subparser:_SubParsersAction):
 
 
 def add_mp4_to_gif(subparser:_SubParsersAction):
-    import mp4_to_gif
+    from . import mp4_to_gif
     parser: ArgumentParser = subparser.add_parser(
         "mp4_to_gif", help=mp4_to_gif.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = mp4_to_gif.add_arguments(parser)
@@ -121,7 +112,7 @@ def add_mp4_to_gif(subparser:_SubParsersAction):
 
 
 def add_get_frames(subparser:_SubParsersAction):
-    import get_frames
+    from . import get_frames
     parser: ArgumentParser = subparser.add_parser(
         "get_frames", help=get_frames.__doc__, formatter_class=RawTextHelpFormatter)
     parser: ArgumentParser = get_frames.add_arguments(parser)

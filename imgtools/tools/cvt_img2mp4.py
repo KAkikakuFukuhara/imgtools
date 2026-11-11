@@ -9,7 +9,6 @@ import logging
 import cv2
 import tqdm
 
-import _add_path
 from imgtools import path_functions
 
 logging.basicConfig(

@@ -8,7 +8,6 @@ from typing import Optional, Dict, Tuple
 import numpy as np
 import cv2
 
-import _add_path
 
 PathPair = Tuple[Optional[Path], Optional[Path]]
 

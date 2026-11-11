@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import tqdm
 
-import _add_path
 from imgtools import path_functions
 
 

@@ -11,7 +11,7 @@ FILEPATH=$TARGETDIR/$FILENAME
 PROJDIR=$(cd $(dirname $0);cd ../;pwd)
 echo "#!/bin/bash" > $FILEPATH && \
     echo "PROJDIR=$PROJDIR" >> $FILEPATH && \
-    echo "\$PROJDIR/.venv/bin/python \$PROJDIR/tools \${@}" >> $FILEPATH && \
+    echo "PYTHONPATH=\"\$PROJDIR\${PYTHONPATH:+:\$PYTHONPATH}\" \"\$PROJDIR/.venv/bin/python\" -m imgtools \"\$@\"" >> $FILEPATH && \
     echo "以下の実行ファイルを作成しました。" && \
     echo "$FILEPATH" && \
     echo "以下を実行して確認してください。" && \
