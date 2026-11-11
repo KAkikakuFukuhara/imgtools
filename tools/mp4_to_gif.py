@@ -109,11 +109,12 @@ def load_frames(src: Path, scale: float, skip_frame: int) -> list[Image.Image]:
     new_hsize = int(round(img_hsize * scale, 0))
 
     pil_images: list[Image.Image] = []
-    frame_num = 1
+    frame_num = 0
     # cv2.namedWindow("image1") #type:ignore
     try:
         while(True):
             ret, frame = cap_file.read()
+            frame_num += 1
             if not ret:
                 break
             if frame_num % skip_frame > 0:
